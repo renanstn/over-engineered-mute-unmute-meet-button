@@ -3,8 +3,8 @@
 #include <HTTPClient.h>
 
 
-const char* WIFI_SSID = "Doc";
-const char* WIFI_PASSWORD = "A336818r";
+const char* WIFI_SSID = "ssid";
+const char* WIFI_PASSWORD = "pass";
 const int SERIAL_SPEED = 115200;
 const int LED_BUILTIN = 2;
 const char* serverName = "http://192.168.1.40:5000/shortcut";
