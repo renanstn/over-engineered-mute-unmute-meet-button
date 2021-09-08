@@ -1,7 +1,7 @@
+#include "WifiCredentials.h"
 #include <ArduinoJson.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <WifiCredentials.h>
 
 
 const int SERIAL_SPEED = 115200;
