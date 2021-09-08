@@ -1,12 +1,12 @@
 #include <ArduinoJson.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <WifiCredentials.h>
 
 
-const char* WIFI_SSID = "ssid";
-const char* WIFI_PASSWORD = "pass";
 const int SERIAL_SPEED = 115200;
 const int LED_BUILTIN = 2;
+const int BUTTON_PIN = 15;
 const char* serverName = "http://192.168.1.40:5000/shortcut";
 
 WiFiClient wifiClient;
@@ -26,33 +26,43 @@ void setupWifi() {
 }
 
 
-void setup()
-{
-  pinMode(LED_BUILTIN, OUTPUT);
-  Serial.begin(SERIAL_SPEED);
-  setupWifi();
+void sendRequest() {
+  // Init http client
   HTTPClient http;
   http.begin(wifiClient, serverName);
-  http.addHeader("Content-Type", "application/json");
   // Create JSON using ArduinoJson lib
   StaticJsonDocument<200> doc;
   doc["command"] = "mute_unmute_meet";
   String requestBody;
   serializeJson(doc, requestBody);
-  // Send request
+  // Add header and send request
+  http.addHeader("Content-Type", "application/json");
   int httpResponseCode = http.POST(requestBody);
 }
 
-void loop() {}
 
-// void loop()
-// {
-//   if (WiFi.status() != WL_CONNECTED) {
-//     setupWifi();
-//   }
+void setup()
+{
+  // Set PIN modes
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT);
+  // Start serial (only for debug)
+  Serial.begin(SERIAL_SPEED);
+  setupWifi();
+}
 
-//   digitalWrite(LED_BUILTIN, HIGH);
-//   delay(1000);
-//   digitalWrite(LED_BUILTIN, LOW);
-//   delay(1000);
-// }
+
+void loop() {
+  // Check connection
+  if (WiFi.status() != WL_CONNECTED) {
+     setupWifi();
+  }
+  // Check button
+  int buttonState = digitalRead(BUTTON_PIN);
+  if (buttonState == HIGH) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    sendRequest();
+    delay(1000);
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+}
