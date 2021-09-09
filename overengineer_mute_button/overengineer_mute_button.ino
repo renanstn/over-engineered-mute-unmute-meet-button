@@ -62,7 +62,7 @@ void loop() {
   if (buttonState == HIGH) {
     digitalWrite(LED_BUILTIN, HIGH);
     sendRequest();
-    delay(1000);
+    delay(500);
     digitalWrite(LED_BUILTIN, LOW);
   }
 }
