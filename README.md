@@ -14,3 +14,5 @@ Incrível e absolutamente desnecessário dispositivo de controle remoto que muta
 
 - Metade da magia está ao enviar uma request POST usando a placa ESP32 conectada no wifi local
 - A outra metade é um servidorzinho [Flask](https://flask.palletsprojects.com/en/2.0.x/) que escuta essas requests e usa a lib `keyboard` para dar `ctrl+d` na máquina
+
+Funciona também se você pegar o seu mouse e simplesmente _clicar no botão_ de unmute, mas aposto que seu mouse não é mais legal que esse troço!
